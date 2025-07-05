@@ -1,3 +1,5 @@
+using System.Xml.Serialization;
+
 public static class ArraySelector
 {
     public static void Run()
@@ -11,6 +13,26 @@ public static class ArraySelector
 
     private static int[] ListSelector(int[] list1, int[] list2, int[] select)
     {
-        return [];
+        int[] v_list1 = list1;
+        int[] v_list2 = list2;
+        int[] v_listS = select;
+        var results = new int[select.Count()];
+        int l1 = 0;
+        int l2 = 0;
+        for (int i = 0; i < v_listS.Count(i => i != 0); i++)
+        {
+            if (v_listS.ElementAt(i) == 1)
+            {
+                results[i] = v_list1.ElementAt(l1);
+                l1++;
+            }
+            else if (v_listS.ElementAt(i) == 2)
+            {
+                results[i] = v_list2.ElementAt(l2);
+                l2++;
+            }
+        }
+
+        return results;
     }
 }
