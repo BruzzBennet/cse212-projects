@@ -45,6 +45,10 @@ public class TakingTurnsQueue
                 person.Turns -= 1;
                 _people.Enqueue(person);
             }
+            if (person.ToString() == "("+person.Name + ":Forever)")
+            {
+                _people.Enqueue(person);
+            }
 
             return person;
         }
