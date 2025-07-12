@@ -11,7 +11,7 @@ public class TakingTurnsQueueTests
     // Scenario: Create a queue with the following people and turns: Bob (2), Tim (5), Sue (3) and
     // run until the queue is empty
     // Expected Result: Bob, Tim, Sue, Bob, Tim, Sue, Tim, Sue, Tim, Tim
-    // Defect(s) Found: 
+    // Defect(s) Found: Sue, Tim, Bob instead of Bob, Tim, Sue 
     public void TestTakingTurnsQueue_FiniteRepetition()
     {
         var bob = new Person("Bob", 2);
@@ -24,7 +24,6 @@ public class TakingTurnsQueueTests
         players.AddPerson(bob.Name, bob.Turns);
         players.AddPerson(tim.Name, tim.Turns);
         players.AddPerson(sue.Name, sue.Turns);
-        // Sue, Tim, Bob instead of Bob, Tim, Sue
 
         int i = 0;
         while (players.Length > 0)
@@ -86,7 +85,7 @@ public class TakingTurnsQueueTests
     // Scenario: Create a queue with the following people and turns: Bob (2), Tim (Forever), Sue (3)
     // Run 10 times.
     // Expected Result: Bob, Tim, Sue, Bob, Tim, Sue, Tim, Sue, Tim, Tim
-    // Defect(s) Found: 
+    // Defect(s) Found: Tim ends up deleted from the list
     public void TestTakingTurnsQueue_ForeverZero()
     {
         var timTurns = 0;
@@ -105,7 +104,6 @@ public class TakingTurnsQueueTests
         for (int i = 0; i < 10; i++)
         {
             var person = players.GetNextPerson();
-            //Tim ends up deleted from the list
             Assert.AreEqual(expectedResult[i].Name, person.Name);
         }
 
@@ -118,7 +116,7 @@ public class TakingTurnsQueueTests
     // Scenario: Create a queue with the following people and turns: Tim (Forever), Sue (3)
     // Run 10 times.
     // Expected Result: Tim, Sue, Tim, Sue, Tim, Sue, Tim, Tim, Tim, Tim
-    // Defect(s) Found: 
+    // Defect(s) Found: People with infinite turns don't have infinite turns. 
     public void TestTakingTurnsQueue_ForeverNegative()
     {
         var timTurns = -3;
@@ -137,7 +135,6 @@ public class TakingTurnsQueueTests
             Assert.AreEqual(expectedResult[i].Name, person.Name);
         }
 
-        // Verify that the people with infinite turns really do have infinite turns.
         var infinitePerson = players.GetNextPerson();
         Assert.AreEqual(timTurns, infinitePerson.Turns, "People with infinite turns should not have their turns parameter modified to a very big number. A very big number is not infinite.");
     }
