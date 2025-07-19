@@ -21,8 +21,27 @@ public static class SetsAndMaps
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
     public static string[] FindPairs(string[] words)
     {
-        // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+        var set1 = new HashSet<string>();
+        var set2 = new List<string>();
+        foreach (var word in words)
+        {
+            if (word[0] != word[1])
+            {
+                char a = word[0];
+                char b = word[1];
+                string search = new string(new char[] { b, a });
+                if (set1.Contains(search))
+                {
+                    set2.Add(search + " & " + word);
+                }
+                else
+                {
+                    set1.Add(word);
+                }
+            }
+        }
+
+        return set2.ToArray();
     }
 
     /// <summary>
@@ -39,10 +58,22 @@ public static class SetsAndMaps
     public static Dictionary<string, int> SummarizeDegrees(string filename)
     {
         var degrees = new Dictionary<string, int>();
+        var set1 = new HashSet<string>();
         foreach (var line in File.ReadLines(filename))
         {
             var fields = line.Split(",");
-            // TODO Problem 2 - ADD YOUR CODE HERE
+            set1.Add(fields[3]);
+        }
+        foreach (var degree in set1)
+        {
+            degrees.Add(degree, 0);
+        }
+        foreach (var line in File.ReadLines(filename))
+        {
+            var fields = line.Split(",");
+            int count = degrees[fields[3].ToString()];
+            degrees[fields[3].ToString()] = count + 1;
+
         }
 
         return degrees;
@@ -66,8 +97,59 @@ public static class SetsAndMaps
     /// </summary>
     public static bool IsAnagram(string word1, string word2)
     {
-        // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+        var word1_list = new List<string>();
+        var word2_list = new List<string>();
+        foreach (var letter in word1)
+        {
+            if(letter.ToString()!=" ")
+                word1_list.Add(letter.ToString().ToUpper());
+        }
+        foreach (var letter in word2)
+        {
+            if(letter.ToString()!=" ")
+                word2_list.Add(letter.ToString().ToUpper());
+        }
+        if (word1_list.Count() != word2_list.Count())
+            return false;
+        else
+        {
+            var d1 = new Dictionary<string, int>();
+            var d2 = new Dictionary<string, int>();
+            foreach (var letter in word1_list)
+            {
+                if (!d1.ContainsKey(letter))
+                {
+                    d1.Add(letter, 0);
+                }
+                int count = d1[letter];
+                d1[letter] = count + 1;
+            }
+            foreach (var letter in word2_list)
+            {
+                if (!d2.ContainsKey(letter))
+                {
+                    d2.Add(letter, 0);
+                }
+                int count = d2[letter];
+                d2[letter] = count + 1;
+            }
+            if (d1.Count != d2.Count)
+                return false;
+            else
+            {
+                foreach (var letter in word1_list)
+                {
+                    if (!d2.ContainsKey(letter))
+                        return false;
+                    else
+                    {
+                        if (d1[letter] != d2[letter])
+                        return false;
+                    }                   
+                }
+            }
+            return true;
+        }
     }
 
     /// <summary>
@@ -81,7 +163,8 @@ public static class SetsAndMaps
     /// Additional information about the format of the JSON data can be found 
     /// at this website:  
     /// 
-    /// https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
+    /// 
+    /// ps://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
     /// 
     /// </summary>
     public static string[] EarthquakeDailySummary()
@@ -101,6 +184,11 @@ public static class SetsAndMaps
         // on those classes so that the call to Deserialize above works properly.
         // 2. Add code below to create a string out each place a earthquake has happened today and its magitude.
         // 3. Return an array of these string descriptions.
-        return [];
+        var results = new List<string>();
+        foreach (var feature in featureCollection.Features)
+        {
+            results.Add($"{feature.Properties.Place} - Mag {feature.Properties.Mag}");
+        }
+        return results.ToArray();
     }
 }

@@ -242,22 +242,22 @@ public class MazeTests
         Assert.AreEqual("Current location (x=1, y=1)", maze.GetStatus());
         AssertThrowsInvalidOperationException(maze.MoveUp);
         AssertThrowsInvalidOperationException(maze.MoveLeft);
-        maze.MoveRight();
+        maze.MoveRight(); //(x=2,y=1)
         AssertThrowsInvalidOperationException(maze.MoveRight);
-        maze.MoveDown();
-        maze.MoveDown();
-        maze.MoveDown();
-        maze.MoveRight();
-        maze.MoveRight();
-        maze.MoveUp();
-        maze.MoveRight();
-        maze.MoveDown();
-        maze.MoveLeft();
+        maze.MoveDown(); //(x=2,y=2)
+        maze.MoveDown(); //(x=2,y=3)
+        maze.MoveDown(); //(x=2,y=4)
+        maze.MoveRight(); //(x=3,y=4)
+        maze.MoveRight(); //(x=4,y=4)
+        maze.MoveUp(); //(x=4,y=3)
+        maze.MoveRight(); //(x=5,y=3)
+        maze.MoveDown(); //(x=5,y=4)
+        maze.MoveLeft(); //(x=4,y=4)
         AssertThrowsInvalidOperationException(maze.MoveDown);
-        maze.MoveRight();
-        maze.MoveDown();
-        maze.MoveDown();
-        maze.MoveRight();
+        maze.MoveRight(); //(x=5,y=4)
+        maze.MoveDown(); //(x=5,y=5)
+        maze.MoveDown(); //(x=5,y=6)
+        maze.MoveRight(); //(x=6,y=6)
         Assert.AreEqual("Current location (x=6, y=6)", maze.GetStatus());
     }
 
