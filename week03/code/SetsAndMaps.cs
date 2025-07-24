@@ -97,24 +97,24 @@ public static class SetsAndMaps
     /// </summary>
     public static bool IsAnagram(string word1, string word2)
     {
-        var word1_list = new List<string>();
-        var word2_list = new List<string>();
+        var word1_list = new List<char>();
+        var word2_list = new List<char>();
         foreach (var letter in word1)
         {
-            if(letter.ToString()!=" ")
-                word1_list.Add(letter.ToString().ToUpper());
+            if(letter!=' ')
+                word1_list.Add(letter);
         }
         foreach (var letter in word2)
         {
-            if(letter.ToString()!=" ")
-                word2_list.Add(letter.ToString().ToUpper());
+            if(letter!=' ')
+                word2_list.Add(letter);
         }
         if (word1_list.Count() != word2_list.Count())
             return false;
         else
         {
-            var d1 = new Dictionary<string, int>();
-            var d2 = new Dictionary<string, int>();
+            var d1 = new Dictionary<char, int>();
+            var d2 = new Dictionary<char, int>();
             foreach (var letter in word1_list)
             {
                 if (!d1.ContainsKey(letter))
